@@ -64,12 +64,17 @@ class Enemy {
   // Enemies with a randomized path are blue and
   // enemies with an optimal path are green
   render() {
+    //this.imgs = imgss;
+    //console.log(this.imgs);
     var ctx = this.game.context
     ctx.save();
 
     ctx.translate(this.loc.x, this.loc.y);
     ctx.rotate(this.angle + Math.PI/2);
-    ctx.drawImage(this.img, -this.img.width/2, -this.img.height/2);
+  //  console.log(this.img);
+  //  ctx.drawImage(bsImage, Cell.wallImage.x, Cell.wallImage.y, Cell.wallImage.w, Cell.wallImage.h, this.loc.x, this.loc.y, this.game.w, this.game.w);
+    //ctx.drawImage(this.img, -this.img.width/2, -this.img.height/2);
+    ctx.drawImage(ssImage,this.img.x, this.img.y, this.img.w, this.img.h, 0, 0, this.img.w, this.img.h);
     ctx.restore();
   }
 
@@ -90,11 +95,11 @@ class Enemy {
           //console.log(this.health)
           towerGame.bullets.splice(h, 1);
         } else if(towerGame.bullets[h].ability == "fast"){
-          this.health = this.health - 350;
+          this.health = this.health - 450;
         //  console.log(this.health)
           towerGame.bullets.splice(h, 1);
         }else if(towerGame.bullets[h].ability == "freeze"){
-          this.health = this.health -1000;
+          this.health = this.health -1200;
           console.log("asdfasdfa");
         //  this.vel = this.initialVel - .8;
         }else if(towerGame.bullets[h].ability == "explosive"){
@@ -119,7 +124,7 @@ class Enemy {
 
   if(this.isLocked){
     this.damages = this.damages + this.increasedDamg;
-    this.health = this.health-this.increasedDamg;
+    this.health = this.health-this.damages;
   }
 
 
@@ -263,13 +268,15 @@ class Enemy1 extends Enemy {
   constructor(game) {
     super(game)
     this.randomPath=1
-    this.img=Enemy.image1
+    this.img = game.enDa[0];
+  //  this.img=Enemy.image1
   }
 }
 class Enemy2 extends Enemy {
   constructor(game) {
     super(game)
-    this.img=Enemy.image2
+  //  this.img=Enemy.image2
+  this.img = game.enDa[1];
   }
   fun(){
     this.velVec = this.velVec.copy().normalize().scale(Math.random()*10)
@@ -278,21 +285,24 @@ class Enemy2 extends Enemy {
 class Enemy3 extends Enemy {
   constructor(game) {
     super(game)
-    this.img=Enemy.image3
+  //  this.img=Enemy.image3
+    this.img = game.enDa[2];
     this.health=5000
   }
 }
 class Enemy4 extends Enemy {
   constructor(game) {
     super(game)
-    this.img=Enemy.image4
+    this.img = game.enDa[3];
+  //  this.img=Enemy.image4
     this.health=15000
   }
 }
 class Enemy5 extends Enemy {
   constructor(game) {
     super(game)
-    this.img=Enemy.image5
+    this.img = game.enDa[4];
+  //  this.img=Enemy.image5
     this.health=1000000000000000000
   }
 }

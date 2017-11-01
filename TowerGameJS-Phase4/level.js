@@ -75,6 +75,7 @@ class Level2 extends Level{
       this.game.towers[i].run();
     }
     for (let i = 0; i < this.game.enemies.length; i++) {
+    //  console.log("game reading"  + this.game.enDa[1]);
       this.game.enemies[i].run();
     }
     for (let i = 0; i < this.game.bullets.length; i++) {

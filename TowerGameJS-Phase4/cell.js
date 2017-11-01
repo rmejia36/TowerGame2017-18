@@ -12,7 +12,8 @@ class Cell{
     this.dist = -1;
     this.vec = null;
     this.hasTower = false;
-
+    //this.image =
+  //  this.wallImage;
   }
 
     // render() --
@@ -22,7 +23,7 @@ class Cell{
     ctx.strokeStyle = 'white';
  //   ctx.strokeRect(this.loc.x, this.loc.y, this.game.w, this.game.w);
     if(this.occupied) {
-        ctx.drawImage(Cell.wallImage, 0, 0, Cell.wallImage.width, Cell.wallImage.height, this.loc.x, this.loc.y, this.game.w, this.game.w);
+        ctx.drawImage(bsImage, Cell.wallImage.x, Cell.wallImage.y, Cell.wallImage.w, Cell.wallImage.h, this.loc.x, this.loc.y, this.game.w, this.game.w);
         }
     else if(this == this.game.root) {
         ctx.fillStyle = "yellow";
