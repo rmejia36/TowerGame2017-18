@@ -18,13 +18,13 @@ class Tower {
     this.enemies=towerGame.enemies
     this.range=200;
     if(ability == "freeze"){
-    this.coolDown = 2500;
+    this.coolDown = 3000;
     this.range = 500;
   }
   else if(ability == "normal" || ability == "explosive")
     this.coolDown = 700;
   else if(ability == "fast")
-    this.coolDown = 200;
+    this.coolDown = 250;
   else
     this.coolDown = 100;
   this.ability = ability;
@@ -52,15 +52,13 @@ class Tower {
          ctx.stroke();
       }
       if (this.visible) { //  not visible when first created
-
-    //  ctx.drawImage(this.towImg, -this.towImg.width/2,-this.towImg.height/2);
-        ctx.drawImage(ssImage,this.towImg.x, this.towImg.y, this.towImg.w, this.towImg.h, -this.towImg.w/2, -this.towImg.h/2, this.towImg.w, this.towImg.h);
+        ctx.drawImage(this.towImg, -this.towImg.width/2,-this.towImg.height/2);
         }
-
     ctx.restore();
   }
 
   update() {
+    this.coolDown = slider.value;
     //  Rotate turret to follow mouse
     this.enemy=this.findEnemy()
     if(this.enemy) {
