@@ -11,16 +11,6 @@ var bsImage;
 var ssImage;
 var load = document.getElementById('loader');
 var wrap;
-var sliderDiv = document.createElement('div');
-sliderDiv.setAttribute('id', 'sliderDiv');
-document.body.appendChild(sliderDiv);
-var range = document.createElement("input");
-sliderDiv.appendChild(range);
-range.setAttribute('type', 'range');
-range.setAttribute('min', '1');
-range.setAttribute('max', '5000');
-range.setAttribute('class', 'slider');
-range.setAttribute('id', 'slider');
 
  function loadImages(){
    bsImage = new Image();
@@ -64,7 +54,9 @@ class Game {
     this.checkOnce = true;
     this.enemyNum = 20;
     this.wallCost = 2;
-
+    this.enDa = [];
+    this.towImgData = [];
+    this.bulletImgData = [];
     this.paused = false;
 
     this.loadEnemyImages();
@@ -97,6 +89,8 @@ class Game {
     this.mouseY = 0;
     this.w = 50;
     this.done = false;
+  //  this.enemyData = [];
+      this.loadWallImage();
     this.level= new Level1(this)
     //panelthings
     // this.panelStart.ceatebutton("Start",
@@ -134,7 +128,7 @@ class Game {
     this.loadGrid();
     this.root = this.grid[this.cols - 1][this.rows -1];
     this.brushfire();
-    this.loadWallImage();
+
 
     var button = document.getElementById('pauseButton');
     button.addEventListener('click', this.pause, false);
@@ -155,13 +149,8 @@ class Game {
     // grab the wall image from the buttons stprite sheet
    var propName =  "B60000";
    var f = buttonsJSON.frames[propName].frame;
-   createImageBitmap(bsImage, f.x, f.y, f.w, f.h).then(function(wallImage){
-     Cell.wallImage = wallImage;
-     //console.log(f);
-   },
-    function(){
-      alert('failed to make wallImage');
-    });
+  // console.log(f.x);
+   Cell.wallImage = f;
 
   }
 
@@ -169,21 +158,21 @@ class Game {
   loadEnemyImages(){
     var enemyData = [];
 
+
     for (var i = 1; i <= 6; i++){
       var propName = "E" + i + "0000";
       var f = json.frames[propName].frame;
-      enemyData.push(createImageBitmap(ssImage, f.x, f.y, f.w, f.h));
+    //  this.enemyData.push(f);
+    //  console.log(f);
+  //  enemyData.push(createImageBitmap(ssImage, f.x, f.y, f.w, f.h));
+    //console.log(f);
+    this.enDa.push(f);
+  //  enDa.push(f);
     }
 
-      Promise.all(enemyData).then(function(enemies){
-        Enemy.image1 = enemies[0];
-        Enemy.image2 = enemies[1];
-        Enemy.image3 = enemies[2];
-        Enemy.image4 = enemies[3];
-        Enemy.image5 = enemies[4];
-        Enemy.image6 = enemies[5];
-      });
+
    }
+
 
   // The success callback when a tower canvas image
   // or bullet image has loaded.  Hide them from
@@ -511,18 +500,10 @@ class Game {
       var frame = json.frames[propertyName].frame;
       var bulletPropertyName = "p" + (index+1) + "0000";
       var bulletFrame = json.frames[bulletPropertyName].frame;
-      //cool stuff
-      Promise.all([
-        createImageBitmap(ssImage, frame.x, frame.y, frame.w, frame.h),
-        createImageBitmap(ssImage, bulletFrame.x, bulletFrame.y, bulletFrame.w, bulletFrame.h)
-      ])
-        .then(
-          function(bmps){
-            mtd.cnvTurImg = bmps[0];
-            mtd.cnvBulImg = bmps[1];
-        }, function(){
-          alert("Error in creating bitmap");
-        });
+      this.towImgData.push(frame);
+      this.bulletImgData.push(bulletFrame);
+     mtd.cnvTurImg = this.towImgData[index];
+      mtd.cnvBulImg = this.bulletImgData[index];
 
     }
 
@@ -577,8 +558,6 @@ class Game {
       innerDiv.id = "innerDiv" + i;
       innerDiv.style.width = "90px";
       innerDiv.style.height = "100px";
-       // Not using imageBitmaps for the buttons
-       // As they are not on the canvas
       innerDiv.style.backgroundImage = "url(resources/images/spritesheets/buttons.png)";
       innerDiv.style.backgroundPosition = `${-button.x}px ${-button.y}px`;
       innerDiv.style.margin = "5px";
@@ -621,6 +600,7 @@ class Game {
     console.log("Cost = " + mtd.cost);
     if(this.bankValue >= mtd.cost){
       var tower = new Tower( mtd.cost, mtd.cnvTurImg, mtd.cnvBulImg, mtd.ability);
+      console.log(mtd.cnvTurImg);
       if(tower) {
         this.towers.push(tower); // add tower to the end of the array of towers
         return(true);

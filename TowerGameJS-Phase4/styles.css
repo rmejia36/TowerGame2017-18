@@ -2,11 +2,7 @@
 body{
   background-color:black;
 }
-#sliderDiv{
-  width: auto;
-  height: 50px;
-  background-color: black;
-}
+
 #wrapperDiv{
   background-color: lightblue;
   width:1020px;
