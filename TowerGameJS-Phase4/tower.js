@@ -61,6 +61,9 @@ class Tower {
   }
 
   update() {
+	  this.coolDown = slider1.value;
+	  console.log(slider1.value);
+	  
     //  Rotate turret to follow mouse
     this.enemy=this.findEnemy()
     if(this.enemy) {

@@ -11,7 +11,18 @@ var bsImage;
 var ssImage;
 var load = document.getElementById('loader');
 var wrap;
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++slider
+var sliderDiv = document.createElement('div');
+sliderDiv.setAttribute('id', 'sliderDiv');
+document.body.appendChild(sliderDiv);
+var slider1 = document.createElement('input');
+slider1.setAttribute('type', 'range');
+slider1.setAttribute('min', '0');
+slider1.setAttribute('max', '5000');
+slider1.setAttribute('id', 'slider1');
 
+sliderDiv.appendChild(slider1);
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  function loadImages(){
    bsImage = new Image();
    bsImage.src = "resources/images/spritesheets/buttons.png";
