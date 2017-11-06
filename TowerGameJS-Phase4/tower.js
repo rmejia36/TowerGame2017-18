@@ -61,9 +61,9 @@ class Tower {
   }
 
   update() {
-	  this.coolDown = slider1.value;
-	  console.log(slider1.value);
-	  
+	  this.coolDown = CoolDownSlider.value;
+	  console.log(CoolDownSlider.value);
+
     //  Rotate turret to follow mouse
     this.enemy=this.findEnemy()
     if(this.enemy) {

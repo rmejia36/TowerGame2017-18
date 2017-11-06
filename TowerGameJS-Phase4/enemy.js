@@ -100,7 +100,6 @@ class Enemy {
           towerGame.bullets.splice(h, 1);
         }else if(towerGame.bullets[h].ability == "freeze"){
           this.health = this.health -1200;
-          console.log("asdfasdfa");
         //  this.vel = this.initialVel - .8;
         }else if(towerGame.bullets[h].ability == "explosive"){
 

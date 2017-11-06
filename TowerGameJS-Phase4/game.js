@@ -11,17 +11,31 @@ var bsImage;
 var ssImage;
 var load = document.getElementById('loader');
 var wrap;
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++slider
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ Cool Down slider
 var sliderDiv = document.createElement('div');
 sliderDiv.setAttribute('id', 'sliderDiv');
 document.body.appendChild(sliderDiv);
-var slider1 = document.createElement('input');
-slider1.setAttribute('type', 'range');
-slider1.setAttribute('min', '0');
-slider1.setAttribute('max', '5000');
-slider1.setAttribute('id', 'slider1');
+var CoolDownSlider = document.createElement('input');
+CoolDownSlider.setAttribute('type', 'range');
+CoolDownSlider.setAttribute('min', '0');
+CoolDownSlider.setAttribute('max', '5000');
+var CoolDownSliderText = document.createElement('div');
+CoolDownSliderText.innerHTML = 'Cool Down: '+CoolDownSlider.value;
+CoolDownSliderText.style.color = '#ffffff';
+sliderDiv.appendChild(CoolDownSliderText);
+sliderDiv.appendChild(CoolDownSlider);
 
-sliderDiv.appendChild(slider1);
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ Bank Value slider
+var bankValueSlider = document.createElement('input');
+bankValueSlider.setAttribute('type', 'range');
+bankValueSlider.setAttribute('min', '0');
+bankValueSlider.setAttribute('max', '5000');
+var bankValueSliderText = document.createElement('div');
+bankValueSliderText.innerHTML = 'Bank Value: '+bankValueSlider.value;
+bankValueSliderText.style.color = '#ffffff';
+sliderDiv.appendChild(bankValueSliderText);
+sliderDiv.appendChild(bankValueSlider);
+
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  function loadImages(){
    bsImage = new Image();
@@ -43,6 +57,8 @@ function setup() {
 }
 
 function draw() {   // the animation loop
+  //+++++++++++++++++++++++++++++++++++++++++++
+  towerGame.updateSliderInfo();
     towerGame.run();
     window.setTimeout(draw, 1000/FRAME_RATE);  // come back here every interval
 }
@@ -60,7 +76,7 @@ class Game {
     this.enemies = [];
     this.bullets = [];
     this.explosiveBullets = [];
-    this.bankValue = 500;
+    this.bankValue = bankValueSlider.value;
     this.rays = [];
     this.checkOnce = true;
     this.enemyNum = 20;
@@ -182,6 +198,12 @@ class Game {
     }
 
 
+   }
+
+   updateSliderInfo(){
+     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++ Running sliders
+     CoolDownSliderText.innerHTML = 'Cool Down: '+CoolDownSlider.value;
+     bankValueSliderText.innerHTML = 'Bank Value: '+bankValueSlider.value;
    }
 
 
@@ -513,7 +535,7 @@ class Game {
       var bulletFrame = json.frames[bulletPropertyName].frame;
       this.towImgData.push(frame);
       this.bulletImgData.push(bulletFrame);
-     mtd.cnvTurImg = this.towImgData[index];
+      mtd.cnvTurImg = this.towImgData[index];
       mtd.cnvBulImg = this.bulletImgData[index];
 
     }
@@ -607,9 +629,9 @@ class Game {
   createTower(mtd) { // menu turret div
     // create a new tower object and add to array list
     // the menu tower div contains the parameters for the tower
-    console.log("Bankvalue = " + this.bankValue);
+    console.log("Bankvalue = " + this.Bankvalue);
     console.log("Cost = " + mtd.cost);
-    if(this.bankValue >= mtd.cost){
+    if(bankValueSlider.value >= mtd.cost){
       var tower = new Tower( mtd.cost, mtd.cnvTurImg, mtd.cnvBulImg, mtd.ability);
       console.log(mtd.cnvTurImg);
       if(tower) {
@@ -710,9 +732,10 @@ class Game {
         // toggle the occupied property of the clicked cell
         if (!cell.occupied && towerGame.bankValue >= towerGame.wallCost){
             towerGame.bankValue -= towerGame.wallCost;
+            bankValueSlider.value = towerGame.bankValue;
             cell.occupied = true;
         } else if(!cell.occupied) {
-            alert("Insufficient Funds!");
+            alert("occupied");
             }
         else {
             towerGame.bankValue += towerGame.wallCost;
@@ -802,7 +825,6 @@ window.onkeydown = function(e) {
   var code = e.keyCode ? e.keyCode : e.which;
 
   if (code == 85) { // u key
-    if (towerGame.bankValue >= 800){
       var upgrade = prompt("Type rate to increase fire rate (costs 1000)\nType range to increase range (Costs 800)").toLowerCase();
 
       if ((upgrade == "range" && towerGame.bankValue >= 800) || (upgrade == "rate" && towerGame.bankValue >= 1000)){
@@ -819,8 +841,5 @@ window.onkeydown = function(e) {
           }
         }
       }
-    } else {
-      alert("Insufficient Funds!");
-    }
   }
 }

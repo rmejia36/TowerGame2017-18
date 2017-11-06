@@ -17,6 +17,10 @@ body{
   height:100px;
   text-align:center;
 }
+#sliderDiv{
+  float: right;
+  background-color: gray;
+}
 
 #fastForward:hover{
   background-color: #6666ff;
