@@ -147,7 +147,7 @@ if(this.health <= 0){
   this.kill = true;
 
   this.deathSound.play();
-  console.log("play");
+  //console.log("play");
   towerGame.bankValue += 10;
 
   //console.log("kills");

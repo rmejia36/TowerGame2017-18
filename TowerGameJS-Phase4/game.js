@@ -15,13 +15,14 @@ var wrap;
 var sliderDiv = document.createElement('div');
 sliderDiv.setAttribute('id', 'sliderDiv');
 document.body.appendChild(sliderDiv);
+/*
 var slider1 = document.createElement('input');
 slider1.setAttribute('type', 'range');
 slider1.setAttribute('min', '0');
-slider1.setAttribute('max', '5000');
+slider1.setAttribute('max', '1000');
 slider1.setAttribute('id', 'slider1');
 
-sliderDiv.appendChild(slider1);
+sliderDiv.appendChild(slider1); */
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  function loadImages(){
    bsImage = new Image();
@@ -95,37 +96,22 @@ class Game {
     this.canvas.addEventListener('click', this.handleCNVMouseClicked, false);
     this.currentWaveNum=0
     this.wave=new Wave(this,AllWaves[this.currentWaveNum])
-
+    this.createFireRateSilder();
     this.mouseX = 0;
     this.mouseY = 0;
     this.w = 50;
     this.done = false;
+    window.onkeydown = function (e) {
+        var code = e.keyCode ? e.keyCode : e.which;
+        if (code === 38) { //up key
+          console.clear();
+          console.log("Basic Tower: " + slider1.value);
+        }
+    };
+
   //  this.enemyData = [];
       this.loadWallImage();
     this.level= new Level1(this)
-    //panelthings
-    // this.panelStart.ceatebutton("Start",
-    //   function(){
-    //     document.getElementById("panelStart").style.display = 'none'
-    //     towerGame.panelStart.go = true
-    //   }, "panelStartStartButton")
-    //
-    // this.panelStart.ceatebutton("Instructions",
-    //   function(){
-    //     document.getElementById("panelStart").style.display = 'none'
-    //     towerGame.panelInstructions = new Panel(this,100,-500, "panelInstructions")
-    //     towerGame.panelInstructions.ceatebutton("Back",
-    //       function(){
-    //         document.getElementById("panelStart").style.display = 'block'
-    //         document.getElementById("panelInstructions").parentNode.removeChild(document.getElementById("panelInstructions"))
-    //       }, "panelInstructionsButton")
-    //   }, "panelStartInstructionButton")
-    //
-    // this.panelStart.ceatebutton("Quit",
-    //   function(){
-    //     towerGame.panelQuit = new Panel(this,100,-500,"panelQuit")
-    //     document.getElementById("panelStart").style.display = 'none'
-    //   }, "panelStartQuitButton")
 
 
 
@@ -259,6 +245,7 @@ class Game {
   if (towerGame.paused) butt.innerHTML = "Play";
   if (!towerGame.paused) butt.innerHTML = "Pause";
 }
+
 
 
   render() { // draw game stuff
@@ -517,11 +504,27 @@ class Game {
       mtd.cnvBulImg = this.bulletImgData[index];
 
     }
+  printSliderData(){
+    console.log("Tower1 Shoot Speed: " + slider1.value);
+  }
 
   // Create the divs to hold the menu of towers with
   // the large images.  This divs also contain the
   // parameters for creating towers to be drawn on the
   // canvas.
+  createFireRateSilder(){
+    var towers = [];
+    for(var i = 0; i < 5; i++){
+      var sl = document.createElement('input');
+      sl.setAttribute('type', 'range');
+      sl.setAttribute('min', '0');
+      sl.setAttribute('max', '1000');
+      sl.setAttribute('id', 'slider1');
+      towers.push(sl);
+      sliderDiv.appendChild(sl);
+    }
+    //  document.getElementById("menuDiv").appendChild(mtd);
+  }
   createTileDivs(){
     var tiles = [];
     var buttons = ["B10000", "B20000", "B30000", "B40000", "B50000", "B60000"];
@@ -548,20 +551,7 @@ class Game {
       mtd.ability = "ray";
     //  this.bankValue = 1000;
     }// createDiv("");
-      /*
-      var h5 = document.createTextNode("Cost");
-      var cnvTurImgPath = "resources/images/tow" + (i+1) + "s.png";  // small tower image for canvas
-      var cnvBulImgPath = "resources/images/b" + (i+1) + ".png";     // bullet image for canvas
-      mtd.cnvTurImg = new Image();
-      mtd.cnvTurImg.addEventListener('load',this.hideImgElement,false);
-      mtd.cnvTurImg.addEventListener('error', function() { console.log(cnvTurImgPath + " failed to load"); }, false);
-      mtd.cnvTurImg.src = cnvTurImgPath;    // start loading image
 
-      mtd.cnvBulImg = new Image();
-      mtd.cnvBulImg.addEventListener('load',this.hideImgElement,false);
-      mtd.cnvBulImg.addEventListener('error', function() { console.log(cnvBulImgPath + " failed to load"); }, false);
-      mtd.cnvBulImg.src = cnvBulImgPath;    // start loading image
-      */
       var b = buttons[i];
       var button = buttonsJSON.frames[b].frame;
 
@@ -607,11 +597,11 @@ class Game {
   createTower(mtd) { // menu turret div
     // create a new tower object and add to array list
     // the menu tower div contains the parameters for the tower
-    console.log("Bankvalue = " + this.bankValue);
-    console.log("Cost = " + mtd.cost);
+  //  console.log("Bankvalue = " + this.bankValue);
+  //  console.log("Cost = " + mtd.cost);
     if(this.bankValue >= mtd.cost){
       var tower = new Tower( mtd.cost, mtd.cnvTurImg, mtd.cnvBulImg, mtd.ability);
-      console.log(mtd.cnvTurImg);
+    //  console.log(mtd.cnvTurImg);
       if(tower) {
         this.towers.push(tower); // add tower to the end of the array of towers
         return(true);

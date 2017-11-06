@@ -6,10 +6,18 @@ body{
 #wrapperDiv{
   background-color: lightblue;
   width:1020px;
-  height:850px;
+  height:950px;
   border:solid black 2px;
   margin:auto;
   display: none;
+}
+#towerSliderInfoDiv{
+  background-color: green;
+  width; 1020px;
+  height: 100px;
+  float: left;
+  margin: auto;
+
 }
 #infoDiv{
   background-color: #381100;
