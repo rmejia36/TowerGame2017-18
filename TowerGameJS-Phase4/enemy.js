@@ -91,7 +91,7 @@ class Enemy {
       if(this.checkCollide(this, towerGame.bullets[h])){
         if(towerGame.bullets[h].ability == "normal"){
           //this.health = this.health - 100;
-          this.health = this.health - 500;
+          this.health = this.health - this.towerGame.dmgSliders[0].value; //dmgSliders
           //console.log(this.health)
           towerGame.bullets.splice(h, 1);
         } else if(towerGame.bullets[h].ability == "fast"){
@@ -100,11 +100,11 @@ class Enemy {
           towerGame.bullets.splice(h, 1);
         }else if(towerGame.bullets[h].ability == "freeze"){
           this.health = this.health -1200;
-          console.log("asdfasdfa");
+          //console.log("asdfasdfa");
         //  this.vel = this.initialVel - .8;
         }else if(towerGame.bullets[h].ability == "explosive"){
 
-            this.health = this.health - 100;
+            this.health = this.health - 50;
           //this.health = this.health - 10;
           if(this.health <= 0){
             this.kill = true;
@@ -147,7 +147,7 @@ if(this.health <= 0){
   this.kill = true;
 
   this.deathSound.play();
-  console.log("play");
+  //console.log("play");
   towerGame.bankValue += 10;
 
   //console.log("kills");

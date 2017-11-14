@@ -15,13 +15,14 @@ var wrap;
 var sliderDiv = document.createElement('div');
 sliderDiv.setAttribute('id', 'sliderDiv');
 document.body.appendChild(sliderDiv);
+/*
 var slider1 = document.createElement('input');
 slider1.setAttribute('type', 'range');
 slider1.setAttribute('min', '0');
-slider1.setAttribute('max', '5000');
+slider1.setAttribute('max', '1000');
 slider1.setAttribute('id', 'slider1');
 
-sliderDiv.appendChild(slider1);
+sliderDiv.appendChild(slider1); */
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  function loadImages(){
    bsImage = new Image();
@@ -44,6 +45,7 @@ function setup() {
 
 function draw() {   // the animation loop
     towerGame.run();
+    //console.clear();
     window.setTimeout(draw, 1000/FRAME_RATE);  // come back here every interval
 }
 
@@ -59,6 +61,10 @@ class Game {
     this.towers = [];
     this.enemies = [];
     this.bullets = [];
+    this.fireSliders = [];
+    this.fireSlidersText = [];
+    this.dmgSliders = [];
+    this.dmgSlidersText = [];
     this.explosiveBullets = [];
     this.bankValue = 500;
     this.rays = [];
@@ -95,37 +101,23 @@ class Game {
     this.canvas.addEventListener('click', this.handleCNVMouseClicked, false);
     this.currentWaveNum=0
     this.wave=new Wave(this,AllWaves[this.currentWaveNum])
-
+    this.createFireRateSilder();
+    this.createDamageSliders();
     this.mouseX = 0;
     this.mouseY = 0;
     this.w = 50;
     this.done = false;
+    window.onkeydown = function (e) {
+        var code = e.keyCode ? e.keyCode : e.which;
+        if (code === 38) { //up key
+          console.clear();
+          console.log("Basic Tower: " + slider1.value);
+        }
+    };
+
   //  this.enemyData = [];
       this.loadWallImage();
     this.level= new Level1(this)
-    //panelthings
-    // this.panelStart.ceatebutton("Start",
-    //   function(){
-    //     document.getElementById("panelStart").style.display = 'none'
-    //     towerGame.panelStart.go = true
-    //   }, "panelStartStartButton")
-    //
-    // this.panelStart.ceatebutton("Instructions",
-    //   function(){
-    //     document.getElementById("panelStart").style.display = 'none'
-    //     towerGame.panelInstructions = new Panel(this,100,-500, "panelInstructions")
-    //     towerGame.panelInstructions.ceatebutton("Back",
-    //       function(){
-    //         document.getElementById("panelStart").style.display = 'block'
-    //         document.getElementById("panelInstructions").parentNode.removeChild(document.getElementById("panelInstructions"))
-    //       }, "panelInstructionsButton")
-    //   }, "panelStartInstructionButton")
-    //
-    // this.panelStart.ceatebutton("Quit",
-    //   function(){
-    //     towerGame.panelQuit = new Panel(this,100,-500,"panelQuit")
-    //     document.getElementById("panelStart").style.display = 'none'
-    //   }, "panelStartQuitButton")
 
 
 
@@ -194,61 +186,9 @@ class Game {
 
     if (!this.paused){
     this.level.run()
-  }     // let gt = this.updateGameTime();
-    // this.updateInfoElements(gt);
-    // this.removeBullets();
-    // this.removeEnemies();
-    // this.controlWaves()
-    // if (this.isRunning) {
-    //   this.render();
-    // }
-    //
-    // // draw the grid
-    // for(let i = 0; i < this.cols; i++){
-    //   for(let j = 0; j < this.rows; j++){
-    //     this.grid[i][j].render();
-    //   }
-    // }
-    //  // draw the towers
-    // for (let i = 0; i < this.towers.length; i++) {
-    //   this.towers[i].run();
-    // }
-    // for (let i = 0; i < this.enemies.length; i++) {
-    //   this.enemies[i].run();
-    // }
-    // for (let i = 0; i < this.bullets.length; i++) {
-    //   this.bullets[i].run();
-    // }
-    //
-    // // some help text in the bottom left of the canvas
-    // this.context.save();
-    // this.context.fillStyle = "white";
-    // this.context.font = "14px sans-serif";
-    // this.context.fillText("Press the E key to send enemies", 20, this.canvas.height-20);
-    // this.context.restore();
-    //
-    // //more panelthings
-    // if(this.panelStart){
-    //   this.panelStart.render()
-    // }
-    //
-    // if(this.panelInstructions){
-    //   this.panelInstructions.render()
-    // }
-    //
-    // if(this.panelQuit){
-    //   this.panelQuit.render()
-    // }
-    //
-    // //collision detection
-    // for(var i = 0; i < this.enemies.length; i++){
-    //   for(var j = 0; j < this.bullets.length; j++){
-    //     if(this.circlePointCollision(this.bullets[j].loc.x, this.bullets[j].loc.y, this.enemies[i].loc.x, this.enemies[i].loc.y, this.enemies[i].radius)){
-    //       this.bullets.splice(j, 1);
-    //       this.enemies.splice(i, 1);
-    //     }
-    //   }
-    // }
+    this.updateFireRateSliders();
+    this.updateDamageSliders();
+  }
 
   }
 
@@ -259,6 +199,7 @@ class Game {
   if (towerGame.paused) butt.innerHTML = "Play";
   if (!towerGame.paused) butt.innerHTML = "Pause";
 }
+
 
 
   render() { // draw game stuff
@@ -517,11 +458,75 @@ class Game {
       mtd.cnvBulImg = this.bulletImgData[index];
 
     }
+  printSliderData(){
+    console.log("Tower1 Shoot Speed: " + slider1.value);
+  }
 
   // Create the divs to hold the menu of towers with
   // the large images.  This divs also contain the
   // parameters for creating towers to be drawn on the
   // canvas.
+  createFireRateSilder(){
+    var towers = [];
+    for(var i = 0; i < 4; i++){
+      var sl = document.createElement('input');
+      sl.setAttribute('type', 'range');
+      sl.setAttribute('min', '50');
+      sl.setAttribute('max', '3000');
+      sl.setAttribute('id', 'slider1');
+
+    var CoolDownSliderText = document.createElement('div');
+    CoolDownSliderText.id = "cd";
+	  CoolDownSliderText.innerHTML = 'Cool Down: '+ sl.value;
+	  CoolDownSliderText.style.color = '#ffffff';
+	  sliderDiv.appendChild(CoolDownSliderText);
+    sliderDiv.appendChild(sl);
+    this.fireSliders.push(sl);
+    this.fireSlidersText.push(CoolDownSliderText);
+  }
+}
+
+  createDamageSliders(){
+    for(var i = 0; i < 5; i++){
+      var dmgSlider = document.createElement("input");
+      dmgSlider.setAttribute('type', 'range');
+      dmgSlider.setAttribute('min', '50');
+      dmgSlider.setAttribute('max', '1200');
+      dmgSlider.setAttribute('id', 'slider2');
+
+      var dmgSliderText = document.createElement('div');
+      dmgSliderText.id = "dmg";
+      dmgSliderText.innerHTML = 'Damage ' + dmgSlider.value;
+      dmgSliderText.style.color = '#f44245';
+      sliderDiv.appendChild(dmgSliderText);
+      sliderDiv.appendChild(dmgSlider);
+      this.dmgSliders.push(dmgSlider);
+      this.dmgSlidersText.push(dmgSliderText);
+
+
+    }
+  }
+
+  updateDamageSliders(){
+    for(var i = 0; i < 5; i++){
+      //this.fireSliders[i].cd = "Value: "+this.fireSliders[i].value;
+      this.dmgSlidersText[i].innerHTML = 'Damage: ' + this.dmgSliders[i].value
+    //  console.log(this.fireSliders[0].value);
+    }
+  }
+
+	//slider1.innerHTML = 'Cool down: ' + 50;
+
+    //  document.getElementById("menuDiv").appendChild(mtd);
+
+
+  updateFireRateSliders(){
+    for(var i = 0; i < 4; i++){
+      //this.fireSliders[i].cd = "Value: "+this.fireSliders[i].value;
+      this.fireSlidersText[i].innerHTML = 'Cool Down: ' + this.fireSliders[i].value
+    //  console.log(this.fireSliders[0].value);
+    }
+  }
   createTileDivs(){
     var tiles = [];
     var buttons = ["B10000", "B20000", "B30000", "B40000", "B50000", "B60000"];
@@ -548,20 +553,7 @@ class Game {
       mtd.ability = "ray";
     //  this.bankValue = 1000;
     }// createDiv("");
-      /*
-      var h5 = document.createTextNode("Cost");
-      var cnvTurImgPath = "resources/images/tow" + (i+1) + "s.png";  // small tower image for canvas
-      var cnvBulImgPath = "resources/images/b" + (i+1) + ".png";     // bullet image for canvas
-      mtd.cnvTurImg = new Image();
-      mtd.cnvTurImg.addEventListener('load',this.hideImgElement,false);
-      mtd.cnvTurImg.addEventListener('error', function() { console.log(cnvTurImgPath + " failed to load"); }, false);
-      mtd.cnvTurImg.src = cnvTurImgPath;    // start loading image
 
-      mtd.cnvBulImg = new Image();
-      mtd.cnvBulImg.addEventListener('load',this.hideImgElement,false);
-      mtd.cnvBulImg.addEventListener('error', function() { console.log(cnvBulImgPath + " failed to load"); }, false);
-      mtd.cnvBulImg.src = cnvBulImgPath;    // start loading image
-      */
       var b = buttons[i];
       var button = buttonsJSON.frames[b].frame;
 
@@ -607,11 +599,11 @@ class Game {
   createTower(mtd) { // menu turret div
     // create a new tower object and add to array list
     // the menu tower div contains the parameters for the tower
-    console.log("Bankvalue = " + this.bankValue);
-    console.log("Cost = " + mtd.cost);
+  //  console.log("Bankvalue = " + this.bankValue);
+  //  console.log("Cost = " + mtd.cost);
     if(this.bankValue >= mtd.cost){
       var tower = new Tower( mtd.cost, mtd.cnvTurImg, mtd.cnvBulImg, mtd.ability);
-      console.log(mtd.cnvTurImg);
+    //  console.log(mtd.cnvTurImg);
       if(tower) {
         this.towers.push(tower); // add tower to the end of the array of towers
         return(true);
