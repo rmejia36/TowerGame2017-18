@@ -65,9 +65,14 @@ class Game {
     this.fireSlidersText = [];
     this.dmgSliders = [];
     this.dmgSlidersText = [];
+    this.costSliders = [];
+    this.costSlidersText = [];
     this.explosiveBullets = [];
+    this.bankIncValue;
+    this.textBankInc;
     this.bankValue = 500;
     this.rays = [];
+    this.towersBankValuesARR = [];
     this.checkOnce = true;
     this.enemyNum = 20;
     this.wallCost = 2;
@@ -87,7 +92,10 @@ class Game {
     this.canvas.height = 750;
     this.canvas.canDiv=document.getElementById('canDiv')
     this.canvas.canDiv.appendChild(this.canvas);
-
+    this.createFireRateSilder();
+    this.createDamageSliders();
+    this.createTowerCostSliders();
+    this.createEnemyDeathValueSlider();
     this.context = this.canvas.getContext("2d");
     if(!this.context)
         throw "No valid context found!";
@@ -101,12 +109,12 @@ class Game {
     this.canvas.addEventListener('click', this.handleCNVMouseClicked, false);
     this.currentWaveNum=0
     this.wave=new Wave(this,AllWaves[this.currentWaveNum])
-    this.createFireRateSilder();
-    this.createDamageSliders();
+
     this.mouseX = 0;
     this.mouseY = 0;
     this.w = 50;
     this.done = false;
+
     window.onkeydown = function (e) {
         var code = e.keyCode ? e.keyCode : e.which;
         if (code === 38) { //up key
@@ -188,6 +196,7 @@ class Game {
     this.level.run()
     this.updateFireRateSliders();
     this.updateDamageSliders();
+    this.updateTileDivs();
   }
 
   }
@@ -477,7 +486,7 @@ class Game {
 
     var CoolDownSliderText = document.createElement('div');
     CoolDownSliderText.id = "cd";
-	  CoolDownSliderText.innerHTML = 'Cool Down: '+ sl.value;
+	  CoolDownSliderText.innerHTML = 'Tower ' + (i+1) + ' Cool Down: ' + sl.value;
 	  CoolDownSliderText.style.color = '#ffffff';
 	  sliderDiv.appendChild(CoolDownSliderText);
     sliderDiv.appendChild(sl);
@@ -490,13 +499,13 @@ class Game {
     for(var i = 0; i < 5; i++){
       var dmgSlider = document.createElement("input");
       dmgSlider.setAttribute('type', 'range');
-      dmgSlider.setAttribute('min', '50');
-      dmgSlider.setAttribute('max', '1200');
+      dmgSlider.setAttribute('min', '5');
+      dmgSlider.setAttribute('max', '1500');
       dmgSlider.setAttribute('id', 'slider2');
 
       var dmgSliderText = document.createElement('div');
       dmgSliderText.id = "dmg";
-      dmgSliderText.innerHTML = 'Damage ' + dmgSlider.value;
+      dmgSliderText.innerHTML = 'Tower ' + (i + 1) +' Damage: ' + dmgSlider.value;
       dmgSliderText.style.color = '#f44245';
       sliderDiv.appendChild(dmgSliderText);
       sliderDiv.appendChild(dmgSlider);
@@ -507,26 +516,60 @@ class Game {
     }
   }
 
-  updateDamageSliders(){
+  createTowerCostSliders(){
     for(var i = 0; i < 5; i++){
-      //this.fireSliders[i].cd = "Value: "+this.fireSliders[i].value;
-      this.dmgSlidersText[i].innerHTML = 'Damage: ' + this.dmgSliders[i].value
-    //  console.log(this.fireSliders[0].value);
+      var costSlider = document.createElement("input");
+      costSlider.setAttribute('type', 'range');
+      costSlider.setAttribute('min', '100');
+      costSlider.setAttribute('max', '1500');
+      costSlider.setAttribute('id', 'slider3');
+      var costSliderText = document.createElement('div');
+      costSliderText.id = "cost";
+      costSliderText.innerHTML = 'Tower ' + (i + 1) +' Cost: ' + costSlider.value;
+      costSliderText.style.color = '#56f442';
+      sliderDiv.appendChild(costSliderText);
+      sliderDiv.appendChild(costSlider);
+      this.costSliders.push(costSlider);
+      this.costSlidersText.push(costSliderText);
     }
   }
 
-	//slider1.innerHTML = 'Cool down: ' + 50;
+  createEnemyDeathValueSlider(){
+    var bankInc = document.createElement("input");
+    bankInc.setAttribute('type', 'range');
+    bankInc.setAttribute('min', '1');
+    bankInc.setAttribute('max', '10');
+    bankInc.setAttribute('id', 'slider4');
+    var text = document.createElement('div');
+    text.id = "inc";
+    text.innerHTML = 'Money Given After Kill ' + bankInc.value;
+    text.style.color = '#dbe82c';
+    sliderDiv.appendChild(text);
+    sliderDiv.appendChild(bankInc);
+    this.bankIncValue = bankInc;
+    this.textBankInc = text;
+  }
 
-    //  document.getElementById("menuDiv").appendChild(mtd);
-
+  updateDamageSliders(){
+    for(var i = 0; i < 5; i++){
+      this.dmgSlidersText[i].innerHTML = 'Tower ' + (i+1) +' Damage: ' + this.dmgSliders[i].value;
+      this.costSlidersText[i].innerHTML = 'Tower ' + (i+1) + ' Cost: ' + this.costSliders[i].value;
+    }
+    this.textBankInc.innerHTML = 'Money After Kill ' + this.bankIncValue.value;
+  }
 
   updateFireRateSliders(){
     for(var i = 0; i < 4; i++){
-      //this.fireSliders[i].cd = "Value: "+this.fireSliders[i].value;
-      this.fireSlidersText[i].innerHTML = 'Cool Down: ' + this.fireSliders[i].value
-    //  console.log(this.fireSliders[0].value);
+      this.fireSlidersText[i].innerHTML = 'Tower ' + (i+1) + ' Cool Down: ' + this.fireSliders[i].value;
     }
   }
+
+  updateTileDivs(){
+    for(var i = 0; i < 5; i++){
+        this.towersBankValuesARR[i].cost = this.costSliders[i].value;
+    }
+  }
+
   createTileDivs(){
     var tiles = [];
     var buttons = ["B10000", "B20000", "B30000", "B40000", "B50000", "B60000"];
@@ -535,23 +578,23 @@ class Game {
       var mtd = document.createElement("div"); // createDiv("");
       if(i == 0){
       mtd.ability = "normal";
-//        this.bankValue = 200;
+      mtd.cost = this.costSliders[0].value;//200;
 
     } else if(i == 1){
       mtd.ability = "fast";
-    //  this.bankValue = 500;
+      mtd.cost = this.costSliders[1].value;
 
     } else if(i == 2){
       mtd.ability = "freeze";
-    //  this.bankValue = 300;
+      mtd.cost = this.costSliders[2].value;
 
     } else if(i == 3){
       mtd.ability = "explosive";
-    //  this.bankValue = 700;
+      mtd.cost = this.costSliders[3].value;
 
     } else {
       mtd.ability = "ray";
-    //  this.bankValue = 1000;
+      mtd.cost = this.costSliders[4].value;
     }// createDiv("");
 
       var b = buttons[i];
@@ -569,10 +612,11 @@ class Game {
       document.getElementById("menuDiv").appendChild(mtd);
 
 
-      mtd.cost = 100*i +50;
+  //    mtd.cost = 100*i +50;
       mtd.setAttribute('title', 'Cost = '+mtd.cost);
       mtd.id = 'towImgDiv' + i;
       tiles.push(mtd);
+      this.towersBankValuesARR.push(mtd);
       this.createTowerBitmaps(ssImage, mtd,i)
 
     }

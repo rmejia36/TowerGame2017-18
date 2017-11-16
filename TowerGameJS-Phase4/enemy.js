@@ -95,16 +95,16 @@ class Enemy {
           //console.log(this.health)
           towerGame.bullets.splice(h, 1);
         } else if(towerGame.bullets[h].ability == "fast"){
-          this.health = this.health - 450;
+          this.health = this.health - this.towerGame.dmgSliders[1].value; //450
         //  console.log(this.health)
           towerGame.bullets.splice(h, 1);
         }else if(towerGame.bullets[h].ability == "freeze"){
-          this.health = this.health -1200;
+          this.health = this.health - this.towerGame.dmgSliders[2].value; //1200
           //console.log("asdfasdfa");
         //  this.vel = this.initialVel - .8;
         }else if(towerGame.bullets[h].ability == "explosive"){
 
-            this.health = this.health - 50;
+            this.health = this.health - this.towerGame.dmgSliders[3].value;
           //this.health = this.health - 10;
           if(this.health <= 0){
             this.kill = true;
@@ -123,7 +123,7 @@ class Enemy {
   }
 
   if(this.isLocked){
-    this.damages = this.damages + this.increasedDamg;
+    this.damages = this.damages + this.towerGame.dmgSliders[4].value;//this.increasedDamg;
     this.health = this.health-this.damages;
   }
 
@@ -135,7 +135,7 @@ class Enemy {
       }
       if(towerGame.explosiveBullets[i].kills == true ){
         towerGame.explosiveBullets.splice(i, 1);
-        console.log("die");
+      //  console.log("die");
       }
     }
 
@@ -148,7 +148,7 @@ if(this.health <= 0){
 
   this.deathSound.play();
   //console.log("play");
-  towerGame.bankValue += 10;
+  towerGame.bankValue += towerGame.bankIncValue.value;
 
   //console.log("kills");
 }
