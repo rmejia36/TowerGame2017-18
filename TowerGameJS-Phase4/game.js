@@ -68,6 +68,7 @@ class Game {
     this.costSliders = [];
     this.costSlidersText = [];
     this.explosiveBullets = [];
+    this.explosiveBullets = [];
     this.bankIncValue;
     this.textBankInc;
     this.bankValue = 500;
@@ -75,7 +76,7 @@ class Game {
     this.towersBankValuesARR = [];
     this.checkOnce = true;
     this.enemyNum = 20;
-    this.wallCost = 2;
+    this.wallCost = 50;
     this.enDa = [];
     this.towImgData = [];
     this.bulletImgData = [];
@@ -118,8 +119,8 @@ class Game {
     window.onkeydown = function (e) {
         var code = e.keyCode ? e.keyCode : e.which;
         if (code === 38) { //up key
-          console.clear();
-          console.log("Basic Tower: " + slider1.value);
+          //console.clear();
+          //console.log("Basic Tower: " + slider1.value);
         }
     };
 
@@ -482,6 +483,18 @@ class Game {
       sl.setAttribute('type', 'range');
       sl.setAttribute('min', '50');
       sl.setAttribute('max', '3000');
+      if(i == 0){
+          sl.setAttribute('value', '700');
+      } else if( i == 1) {
+          sl.setAttribute('value', '200');
+      } else if(i == 2){
+        sl.setAttribute('value', '2500');
+      } else if (i ==3) {
+        sl.setAttribute('value', '700');
+
+      }
+
+      //sl.setAttribute('value', '1000');
       sl.setAttribute('id', 'slider1');
 
     var CoolDownSliderText = document.createElement('div');
@@ -500,8 +513,24 @@ class Game {
       var dmgSlider = document.createElement("input");
       dmgSlider.setAttribute('type', 'range');
       dmgSlider.setAttribute('min', '5');
-      dmgSlider.setAttribute('max', '1500');
+
       dmgSlider.setAttribute('id', 'slider2');
+      if(i == 0){
+        dmgSlider.setAttribute('max', '1000');
+        dmgSlider.setAttribute('value', '500');
+      } else if( i == 1) {
+        dmgSlider.setAttribute('max', '1000');
+        dmgSlider.setAttribute('value', '400');
+      } else if(i == 2){
+        dmgSlider.setAttribute('max', '1750');
+        dmgSlider.setAttribute('value', '1200');
+      } else if (i ==3) {
+        dmgSlider.setAttribute('max', '400');
+        dmgSlider.setAttribute('value', '100');
+      } else {
+        dmgSlider.setAttribute('max', '80');
+        dmgSlider.setAttribute('value', '20');
+      }
 
       var dmgSliderText = document.createElement('div');
       dmgSliderText.id = "dmg";
@@ -523,6 +552,23 @@ class Game {
       costSlider.setAttribute('min', '100');
       costSlider.setAttribute('max', '1500');
       costSlider.setAttribute('id', 'slider3');
+      if(i == 0){
+        costSlider.setAttribute('value', '200');
+      } else if( i == 1) {
+        costSlider.setAttribute('value', '500');
+      } else if(i == 2){
+        costSlider.setAttribute('value', '500');
+      } else if (i ==3) {
+        costSlider.setAttribute('value', '700');
+      } else {
+        costSlider.setAttribute('value', '1000');
+      }
+      if(i == 5) {
+        costSlider.setAttribute('type', 'range');
+        costSlider.setAttribute('min', '10');
+        costSlider.setAttribute('max', '100');
+        costSlider.setAttribute('value', '20');
+      }
       var costSliderText = document.createElement('div');
       costSliderText.id = "cost";
       costSliderText.innerHTML = 'Tower ' + (i + 1) +' Cost: ' + costSlider.value;
@@ -553,7 +599,10 @@ class Game {
   updateDamageSliders(){
     for(var i = 0; i < 5; i++){
       this.dmgSlidersText[i].innerHTML = 'Tower ' + (i+1) +' Damage: ' + this.dmgSliders[i].value;
-      this.costSlidersText[i].innerHTML = 'Tower ' + (i+1) + ' Cost: ' + this.costSliders[i].value;
+
+    }
+    for(var i = 0; i < 5; i++){
+        this.costSlidersText[i].innerHTML = 'Tower ' + (i+1) + ' Cost: ' + this.costSliders[i].value;
     }
     this.textBankInc.innerHTML = 'Money After Kill ' + this.bankIncValue.value;
   }
