@@ -91,20 +91,20 @@ class Enemy {
       if(this.checkCollide(this, towerGame.bullets[h])){
         if(towerGame.bullets[h].ability == "normal"){
           //this.health = this.health - 100;
-          this.health = this.health - 500;
+          this.health = this.health - towerGame.dmgSliders[0].value; //dmgSliders
           //console.log(this.health)
           towerGame.bullets.splice(h, 1);
         } else if(towerGame.bullets[h].ability == "fast"){
-          this.health = this.health - 450;
+          this.health = this.health - towerGame.dmgSliders[1].value; //450
         //  console.log(this.health)
           towerGame.bullets.splice(h, 1);
         }else if(towerGame.bullets[h].ability == "freeze"){
-          this.health = this.health -1200;
-          console.log("asdfasdfa");
+          this.health = this.health - towerGame.dmgSliders[2].value; //1200
+          //console.log("asdfasdfa");
         //  this.vel = this.initialVel - .8;
         }else if(towerGame.bullets[h].ability == "explosive"){
 
-            this.health = this.health - 100;
+            this.health = this.health - 50;
           //this.health = this.health - 10;
           if(this.health <= 0){
             this.kill = true;
@@ -123,7 +123,7 @@ class Enemy {
   }
 
   if(this.isLocked){
-    this.damages = this.damages + this.increasedDamg;
+    this.damages = this.damages + towerGame.dmgSliders[4].value;//this.increasedDamg;
     this.health = this.health-this.damages;
   }
 
@@ -131,11 +131,11 @@ class Enemy {
 
     for(let i = 0; i < towerGame.explosiveBullets.length; i++){
       if(this.loc.dist(towerGame.explosiveBullets[i].loc) < 70){
-        this.health = this.health - 100;
+        this.health = this.health - towerGame.dmgSliders[3].value;
       }
       if(towerGame.explosiveBullets[i].kills == true ){
         towerGame.explosiveBullets.splice(i, 1);
-        console.log("die");
+      //  console.log("die");
       }
     }
 
@@ -147,8 +147,12 @@ if(this.health <= 0){
   this.kill = true;
 
   this.deathSound.play();
-  console.log("play");
-  towerGame.bankValue += 10;
+  //console.log("play");
+  var incValue = parseInt(towerGame.bankIncValue.value);
+
+  towerGame.bankValue += incValue;
+  //towerGame.bankValue += towerGame.bankIncValue.value;
+  console.log("inc value " + towerGame.bankIncValue.value);
 
   //console.log("kills");
 }

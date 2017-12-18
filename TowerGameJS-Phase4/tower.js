@@ -4,6 +4,7 @@ class Tower {
   // issue#1 use preloaded images
   constructor( cost, tImg, bImg, ability) {
     this.loc = vector2d(0, 0);
+    this.ability = ability;
     this.placed = false;
     this.visible = false;
     this.enX= 0;
@@ -17,16 +18,8 @@ class Tower {
     towerGame.bankValue = towerGame.bankValue- this.cost;
     this.enemies=towerGame.enemies
     this.range=200;
-    if(ability == "freeze"){
-    this.coolDown = 2500;
-    this.range = 500;
-  }
-  else if(ability == "normal" || ability == "explosive")
-    this.coolDown = 700;
-  else if(ability == "fast")
-    this.coolDown = 200;
-  else
-    this.coolDown = 100;
+
+
   this.ability = ability;
     this.target=null
     this.enemy=null
@@ -38,6 +31,20 @@ class Tower {
   }
 
   render() {
+    if(this.ability == "freeze"){
+       this.coolDown = towerGame.fireSliders[2].value;
+       console.log(towerGame.fireSliders[2].value); //2500
+       this.range = 500;
+     }
+     else if(this.ability == "normal"){
+       this.coolDown = towerGame.fireSliders[0].value; //700
+     }else if(this.ability == "fast"){
+       this.coolDown = towerGame.fireSliders[1].value; //200
+     } else if(this.ability == "explosive"){
+       this.coolDown = towerGame.fireSliders[3].value;
+     }else{
+     this.coolDown = 100; //100
+   }
     var ctx = towerGame.context;
     ctx.save();
       ctx.translate(this.loc.x, this.loc.y);
@@ -61,9 +68,10 @@ class Tower {
   }
 
   update() {
-	  this.coolDown = slider1.value;
-	  console.log(slider1.value);
-	  
+
+
+	//  console.log(slider1.value);
+
     //  Rotate turret to follow mouse
     this.enemy=this.findEnemy()
     if(this.enemy) {
