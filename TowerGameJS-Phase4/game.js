@@ -11,24 +11,37 @@ var bsImage;
 var ssImage;
 var load = document.getElementById('loader');
 var wrap;
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++slider
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ Cool Down slider
 var sliderDiv = document.createElement('div');
 sliderDiv.setAttribute('id', 'sliderDiv');
 document.body.appendChild(sliderDiv);
-/*
-var slider1 = document.createElement('input');
-slider1.setAttribute('type', 'range');
-slider1.setAttribute('min', '0');
-slider1.setAttribute('max', '1000');
-slider1.setAttribute('id', 'slider1');
+var CoolDownSlider = document.createElement('input');
+CoolDownSlider.setAttribute('type', 'range');
+CoolDownSlider.setAttribute('min', '0');
+CoolDownSlider.setAttribute('max', '5000');
+var CoolDownSliderText = document.createElement('div');
+CoolDownSliderText.innerHTML = 'Cool Down: '+CoolDownSlider.value;
+CoolDownSliderText.style.color = '#ffffff';
+sliderDiv.appendChild(CoolDownSliderText);
+sliderDiv.appendChild(CoolDownSlider);
 
-sliderDiv.appendChild(slider1); */
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ Bank Value slider
+var bankValueSlider = document.createElement('input');
+bankValueSlider.setAttribute('type', 'range');
+bankValueSlider.setAttribute('min', '0');
+bankValueSlider.setAttribute('max', '5000');
+var bankValueSliderText = document.createElement('div');
+bankValueSliderText.innerHTML = 'Bank Value: '+bankValueSlider.value;
+bankValueSliderText.style.color = '#ffffff';
+sliderDiv.appendChild(bankValueSliderText);
+sliderDiv.appendChild(bankValueSlider);
+
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  function loadImages(){
    bsImage = new Image();
    bsImage.src = "resources/images/spritesheets/buttons.png";
    ssImage = new Image();
-   ssImage.src = "resources/images/spritesheets/sprites.png";
+   ssImage.src = "resources/images/spritesheets/sprites2.png";
    window.setTimeout(setup, 1500);
  }
 function setup() {
@@ -44,8 +57,9 @@ function setup() {
 }
 
 function draw() {   // the animation loop
+  //+++++++++++++++++++++++++++++++++++++++++++
+  towerGame.updateSliderInfo();
     towerGame.run();
-    //console.clear();
     window.setTimeout(draw, 1000/FRAME_RATE);  // come back here every interval
 }
 
@@ -61,22 +75,12 @@ class Game {
     this.towers = [];
     this.enemies = [];
     this.bullets = [];
-    this.fireSliders = [];
-    this.fireSlidersText = [];
-    this.dmgSliders = [];
-    this.dmgSlidersText = [];
-    this.costSliders = [];
-    this.costSlidersText = [];
     this.explosiveBullets = [];
-    this.explosiveBullets = [];
-    this.bankIncValue;
-    this.textBankInc;
-    this.bankValue = 500;
+    this.bankValue = bankValueSlider.value;
     this.rays = [];
-    this.towersBankValuesARR = [];
     this.checkOnce = true;
     this.enemyNum = 20;
-    this.wallCost = 50;
+    this.wallCost = 2;
     this.enDa = [];
     this.towImgData = [];
     this.bulletImgData = [];
@@ -93,10 +97,7 @@ class Game {
     this.canvas.height = 750;
     this.canvas.canDiv=document.getElementById('canDiv')
     this.canvas.canDiv.appendChild(this.canvas);
-    this.createFireRateSilder();
-    this.createDamageSliders();
-    this.createTowerCostSliders();
-    this.createEnemyDeathValueSlider();
+
     this.context = this.canvas.getContext("2d");
     if(!this.context)
         throw "No valid context found!";
@@ -115,18 +116,32 @@ class Game {
     this.mouseY = 0;
     this.w = 50;
     this.done = false;
-
-    window.onkeydown = function (e) {
-        var code = e.keyCode ? e.keyCode : e.which;
-        if (code === 38) { //up key
-          //console.clear();
-          //console.log("Basic Tower: " + slider1.value);
-        }
-    };
-
   //  this.enemyData = [];
       this.loadWallImage();
     this.level= new Level1(this)
+    //panelthings
+    // this.panelStart.ceatebutton("Start",
+    //   function(){
+    //     document.getElementById("panelStart").style.display = 'none'
+    //     towerGame.panelStart.go = true
+    //   }, "panelStartStartButton")
+    //
+    // this.panelStart.ceatebutton("Instructions",
+    //   function(){
+    //     document.getElementById("panelStart").style.display = 'none'
+    //     towerGame.panelInstructions = new Panel(this,100,-500, "panelInstructions")
+    //     towerGame.panelInstructions.ceatebutton("Back",
+    //       function(){
+    //         document.getElementById("panelStart").style.display = 'block'
+    //         document.getElementById("panelInstructions").parentNode.removeChild(document.getElementById("panelInstructions"))
+    //       }, "panelInstructionsButton")
+    //   }, "panelStartInstructionButton")
+    //
+    // this.panelStart.ceatebutton("Quit",
+    //   function(){
+    //     towerGame.panelQuit = new Panel(this,100,-500,"panelQuit")
+    //     document.getElementById("panelStart").style.display = 'none'
+    //   }, "panelStartQuitButton")
 
 
 
@@ -171,7 +186,7 @@ class Game {
     var enemyData = [];
 
 
-    for (var i = 1; i <= 6; i++){
+    for (var i = 1; i <= 4; i++){
       var propName = "E" + i + "0000";
       var f = json.frames[propName].frame;
     //  this.enemyData.push(f);
@@ -185,6 +200,12 @@ class Game {
 
    }
 
+   updateSliderInfo(){
+     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++ Running sliders
+     CoolDownSliderText.innerHTML = 'Cool Down: '+CoolDownSlider.value;
+     bankValueSliderText.innerHTML = 'Bank Value: '+bankValueSlider.value;
+   }
+
 
   // The success callback when a tower canvas image
   // or bullet image has loaded.  Hide them from
@@ -195,10 +216,61 @@ class Game {
 
     if (!this.paused){
     this.level.run()
-    this.updateFireRateSliders();
-    this.updateDamageSliders();
-    this.updateTileDivs();
-  }
+  }     // let gt = this.updateGameTime();
+    // this.updateInfoElements(gt);
+    // this.removeBullets();
+    // this.removeEnemies();
+    // this.controlWaves()
+    // if (this.isRunning) {
+    //   this.render();
+    // }
+    //
+    // // draw the grid
+    // for(let i = 0; i < this.cols; i++){
+    //   for(let j = 0; j < this.rows; j++){
+    //     this.grid[i][j].render();
+    //   }
+    // }
+    //  // draw the towers
+    // for (let i = 0; i < this.towers.length; i++) {
+    //   this.towers[i].run();
+    // }
+    // for (let i = 0; i < this.enemies.length; i++) {
+    //   this.enemies[i].run();
+    // }
+    // for (let i = 0; i < this.bullets.length; i++) {
+    //   this.bullets[i].run();
+    // }
+    //
+    // // some help text in the bottom left of the canvas
+    // this.context.save();
+    // this.context.fillStyle = "white";
+    // this.context.font = "14px sans-serif";
+    // this.context.fillText("Press the E key to send enemies", 20, this.canvas.height-20);
+    // this.context.restore();
+    //
+    // //more panelthings
+    // if(this.panelStart){
+    //   this.panelStart.render()
+    // }
+    //
+    // if(this.panelInstructions){
+    //   this.panelInstructions.render()
+    // }
+    //
+    // if(this.panelQuit){
+    //   this.panelQuit.render()
+    // }
+    //
+    // //collision detection
+    // for(var i = 0; i < this.enemies.length; i++){
+    //   for(var j = 0; j < this.bullets.length; j++){
+    //     if(this.circlePointCollision(this.bullets[j].loc.x, this.bullets[j].loc.y, this.enemies[i].loc.x, this.enemies[i].loc.y, this.enemies[i].radius)){
+    //       this.bullets.splice(j, 1);
+    //       this.enemies.splice(i, 1);
+    //     }
+    //   }
+    // }
 
   }
 
@@ -209,7 +281,6 @@ class Game {
   if (towerGame.paused) butt.innerHTML = "Play";
   if (!towerGame.paused) butt.innerHTML = "Pause";
 }
-
 
 
   render() { // draw game stuff
@@ -464,161 +535,15 @@ class Game {
       var bulletFrame = json.frames[bulletPropertyName].frame;
       this.towImgData.push(frame);
       this.bulletImgData.push(bulletFrame);
-     mtd.cnvTurImg = this.towImgData[index];
+      mtd.cnvTurImg = this.towImgData[index];
       mtd.cnvBulImg = this.bulletImgData[index];
 
     }
-  printSliderData(){
-    console.log("Tower1 Shoot Speed: " + slider1.value);
-  }
 
   // Create the divs to hold the menu of towers with
   // the large images.  This divs also contain the
   // parameters for creating towers to be drawn on the
   // canvas.
-  createFireRateSilder(){
-    var towers = [];
-    for(var i = 0; i < 4; i++){
-      var sl = document.createElement('input');
-      sl.setAttribute('type', 'range');
-      sl.setAttribute('min', '50');
-      sl.setAttribute('max', '3000');
-      if(i == 0){
-          sl.setAttribute('value', '700');
-      } else if( i == 1) {
-          sl.setAttribute('value', '200');
-      } else if(i == 2){
-        sl.setAttribute('value', '2500');
-      } else if (i ==3) {
-        sl.setAttribute('value', '700');
-
-      }
-
-      //sl.setAttribute('value', '1000');
-      sl.setAttribute('id', 'slider1');
-
-    var CoolDownSliderText = document.createElement('div');
-    CoolDownSliderText.id = "cd";
-	  CoolDownSliderText.innerHTML = 'Tower ' + (i+1) + ' Cool Down: ' + sl.value;
-	  CoolDownSliderText.style.color = '#ffffff';
-	  sliderDiv.appendChild(CoolDownSliderText);
-    sliderDiv.appendChild(sl);
-    this.fireSliders.push(sl);
-    this.fireSlidersText.push(CoolDownSliderText);
-  }
-}
-
-  createDamageSliders(){
-    for(var i = 0; i < 5; i++){
-      var dmgSlider = document.createElement("input");
-      dmgSlider.setAttribute('type', 'range');
-      dmgSlider.setAttribute('min', '5');
-
-      dmgSlider.setAttribute('id', 'slider2');
-      if(i == 0){
-        dmgSlider.setAttribute('max', '1000');
-        dmgSlider.setAttribute('value', '500');
-      } else if( i == 1) {
-        dmgSlider.setAttribute('max', '1000');
-        dmgSlider.setAttribute('value', '400');
-      } else if(i == 2){
-        dmgSlider.setAttribute('max', '1750');
-        dmgSlider.setAttribute('value', '1200');
-      } else if (i ==3) {
-        dmgSlider.setAttribute('max', '400');
-        dmgSlider.setAttribute('value', '100');
-      } else {
-        dmgSlider.setAttribute('max', '80');
-        dmgSlider.setAttribute('value', '20');
-      }
-
-      var dmgSliderText = document.createElement('div');
-      dmgSliderText.id = "dmg";
-      dmgSliderText.innerHTML = 'Tower ' + (i + 1) +' Damage: ' + dmgSlider.value;
-      dmgSliderText.style.color = '#f44245';
-      sliderDiv.appendChild(dmgSliderText);
-      sliderDiv.appendChild(dmgSlider);
-      this.dmgSliders.push(dmgSlider);
-      this.dmgSlidersText.push(dmgSliderText);
-
-
-    }
-  }
-
-  createTowerCostSliders(){
-    for(var i = 0; i < 5; i++){
-      var costSlider = document.createElement("input");
-      costSlider.setAttribute('type', 'range');
-      costSlider.setAttribute('min', '100');
-      costSlider.setAttribute('max', '1500');
-      costSlider.setAttribute('id', 'slider3');
-      if(i == 0){
-        costSlider.setAttribute('value', '200');
-      } else if( i == 1) {
-        costSlider.setAttribute('value', '500');
-      } else if(i == 2){
-        costSlider.setAttribute('value', '500');
-      } else if (i ==3) {
-        costSlider.setAttribute('value', '700');
-      } else {
-        costSlider.setAttribute('value', '1000');
-      }
-      if(i == 5) {
-        costSlider.setAttribute('type', 'range');
-        costSlider.setAttribute('min', '10');
-        costSlider.setAttribute('max', '100');
-        costSlider.setAttribute('value', '20');
-      }
-      var costSliderText = document.createElement('div');
-      costSliderText.id = "cost";
-      costSliderText.innerHTML = 'Tower ' + (i + 1) +' Cost: ' + costSlider.value;
-      costSliderText.style.color = '#56f442';
-      sliderDiv.appendChild(costSliderText);
-      sliderDiv.appendChild(costSlider);
-      this.costSliders.push(costSlider);
-      this.costSlidersText.push(costSliderText);
-    }
-  }
-
-  createEnemyDeathValueSlider(){
-    var bankInc = document.createElement("input");
-    bankInc.setAttribute('type', 'range');
-    bankInc.setAttribute('min', '1');
-    bankInc.setAttribute('max', '10');
-    bankInc.setAttribute('id', 'slider4');
-    var text = document.createElement('div');
-    text.id = "inc";
-    text.innerHTML = 'Money Given After Kill ' + bankInc.value;
-    text.style.color = '#dbe82c';
-    sliderDiv.appendChild(text);
-    sliderDiv.appendChild(bankInc);
-    this.bankIncValue = bankInc;
-    this.textBankInc = text;
-  }
-
-  updateDamageSliders(){
-    for(var i = 0; i < 5; i++){
-      this.dmgSlidersText[i].innerHTML = 'Tower ' + (i+1) +' Damage: ' + this.dmgSliders[i].value;
-
-    }
-    for(var i = 0; i < 5; i++){
-        this.costSlidersText[i].innerHTML = 'Tower ' + (i+1) + ' Cost: ' + this.costSliders[i].value;
-    }
-    this.textBankInc.innerHTML = 'Money After Kill ' + this.bankIncValue.value;
-  }
-
-  updateFireRateSliders(){
-    for(var i = 0; i < 4; i++){
-      this.fireSlidersText[i].innerHTML = 'Tower ' + (i+1) + ' Cool Down: ' + this.fireSliders[i].value;
-    }
-  }
-
-  updateTileDivs(){
-    for(var i = 0; i < 5; i++){
-        this.towersBankValuesARR[i].cost = this.costSliders[i].value;
-    }
-  }
-
   createTileDivs(){
     var tiles = [];
     var buttons = ["B10000", "B20000", "B30000", "B40000", "B50000", "B60000"];
@@ -627,25 +552,38 @@ class Game {
       var mtd = document.createElement("div"); // createDiv("");
       if(i == 0){
       mtd.ability = "normal";
-      mtd.cost = this.costSliders[0].value;//200;
+//        this.bankValue = 200;
 
     } else if(i == 1){
       mtd.ability = "fast";
-      mtd.cost = this.costSliders[1].value;
+    //  this.bankValue = 500;
 
     } else if(i == 2){
       mtd.ability = "freeze";
-      mtd.cost = this.costSliders[2].value;
+    //  this.bankValue = 300;
 
     } else if(i == 3){
       mtd.ability = "explosive";
-      mtd.cost = this.costSliders[3].value;
+    //  this.bankValue = 700;
 
     } else {
       mtd.ability = "ray";
-      mtd.cost = this.costSliders[4].value;
+    //  this.bankValue = 1000;
     }// createDiv("");
+      /*
+      var h5 = document.createTextNode("Cost");
+      var cnvTurImgPath = "resources/images/tow" + (i+1) + "s.png";  // small tower image for canvas
+      var cnvBulImgPath = "resources/images/b" + (i+1) + ".png";     // bullet image for canvas
+      mtd.cnvTurImg = new Image();
+      mtd.cnvTurImg.addEventListener('load',this.hideImgElement,false);
+      mtd.cnvTurImg.addEventListener('error', function() { console.log(cnvTurImgPath + " failed to load"); }, false);
+      mtd.cnvTurImg.src = cnvTurImgPath;    // start loading image
 
+      mtd.cnvBulImg = new Image();
+      mtd.cnvBulImg.addEventListener('load',this.hideImgElement,false);
+      mtd.cnvBulImg.addEventListener('error', function() { console.log(cnvBulImgPath + " failed to load"); }, false);
+      mtd.cnvBulImg.src = cnvBulImgPath;    // start loading image
+      */
       var b = buttons[i];
       var button = buttonsJSON.frames[b].frame;
 
@@ -661,11 +599,10 @@ class Game {
       document.getElementById("menuDiv").appendChild(mtd);
 
 
-  //    mtd.cost = 100*i +50;
+      mtd.cost = 100*i +50;
       mtd.setAttribute('title', 'Cost = '+mtd.cost);
       mtd.id = 'towImgDiv' + i;
       tiles.push(mtd);
-      this.towersBankValuesARR.push(mtd);
       this.createTowerBitmaps(ssImage, mtd,i)
 
     }
@@ -692,11 +629,11 @@ class Game {
   createTower(mtd) { // menu turret div
     // create a new tower object and add to array list
     // the menu tower div contains the parameters for the tower
-  //  console.log("Bankvalue = " + this.bankValue);
-  //  console.log("Cost = " + mtd.cost);
-    if(this.bankValue >= mtd.cost){
+    console.log("Bankvalue = " + this.Bankvalue);
+    console.log("Cost = " + mtd.cost);
+    if(bankValueSlider.value >= mtd.cost){
       var tower = new Tower( mtd.cost, mtd.cnvTurImg, mtd.cnvBulImg, mtd.ability);
-    //  console.log(mtd.cnvTurImg);
+      console.log(mtd.cnvTurImg);
       if(tower) {
         this.towers.push(tower); // add tower to the end of the array of towers
         return(true);
@@ -795,9 +732,10 @@ class Game {
         // toggle the occupied property of the clicked cell
         if (!cell.occupied && towerGame.bankValue >= towerGame.wallCost){
             towerGame.bankValue -= towerGame.wallCost;
+            bankValueSlider.value = towerGame.bankValue;
             cell.occupied = true;
         } else if(!cell.occupied) {
-            alert("Insufficient Funds!");
+            alert("occupied");
             }
         else {
             towerGame.bankValue += towerGame.wallCost;
@@ -887,7 +825,6 @@ window.onkeydown = function(e) {
   var code = e.keyCode ? e.keyCode : e.which;
 
   if (code == 85) { // u key
-    if (towerGame.bankValue >= 800){
       var upgrade = prompt("Type rate to increase fire rate (costs 1000)\nType range to increase range (Costs 800)").toLowerCase();
 
       if ((upgrade == "range" && towerGame.bankValue >= 800) || (upgrade == "rate" && towerGame.bankValue >= 1000)){
@@ -904,8 +841,5 @@ window.onkeydown = function(e) {
           }
         }
       }
-    } else {
-      alert("Insufficient Funds!");
-    }
   }
 }

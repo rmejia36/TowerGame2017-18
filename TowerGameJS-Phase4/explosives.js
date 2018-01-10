@@ -1,3 +1,4 @@
+'use strict'
 class Explosives{
 
   constructor(location){
@@ -20,7 +21,7 @@ class Explosives{
     ctx.fillStyle = 'orange';
    // console.log(this.loc);
     ctx.beginPath();
-    if(this.radius <= 50){
+    if(this.radius <= 40){
      this.radius += 7;
      console.log("sss");
 

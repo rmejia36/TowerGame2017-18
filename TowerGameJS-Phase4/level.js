@@ -83,18 +83,11 @@ class Level2 extends Level{
     }
     for (let i = 0; i < this.game.explosiveBullets.length; i++) {
       this.game.explosiveBullets[i].run();
-      if(this.game.explosiveBullets[i].kills === true){
-        //this.game.explosiveBullets.splice(i, 0);
-      }
-      if(this.game.enemies.length === 0){
-        //this.game.explosiveBullets = [];
-      }
     }
 
     for (let i = 0; i < this.game.bullets.length; i++) {
   //    this.game.lockon[i].run();
     }
-
 
 
     // some help text in the bottom left of the canvas

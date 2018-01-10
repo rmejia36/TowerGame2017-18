@@ -1,6 +1,6 @@
-json = {"frames": {
+jsonx = {"frames": {
 
-"Block0000":
+"wall1":
 {
 	"frame": {"x":1,"y":1,"w":50,"h":51},
 	"rotated": false,

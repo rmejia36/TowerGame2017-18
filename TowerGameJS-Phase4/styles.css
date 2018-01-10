@@ -11,24 +11,15 @@ body{
   margin:auto;
   display: none;
 }
-#towerSliderInfoDiv{
-  background-color: green;
-  width; 1020px;
-  height: 100px;
-  float: left;
-  margin: auto;
-
-}
-#sliderDiv{
-  float: right;
-  position: fixed;
-  background-color: gray;
-}
 #infoDiv{
   background-color: #381100;
   width:1020px;
   height:100px;
   text-align:center;
+}
+#sliderDiv{
+  float: right;
+  background-color: gray;
 }
 
 #fastForward:hover{
