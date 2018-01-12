@@ -76,7 +76,7 @@ class Game {
     this.towersBankValuesARR = [];
     this.checkOnce = true;
     this.enemyNum = 20;
-    this.wallCost = 50;
+    this.wallCost = 35;
     this.enDa = [];
     this.towImgData = [];
     this.bulletImgData = [];
@@ -584,7 +584,7 @@ class Game {
     var bankInc = document.createElement("input");
     bankInc.setAttribute('type', 'range');
     bankInc.setAttribute('min', '1');
-    bankInc.setAttribute('max', '10');
+    bankInc.setAttribute('max', '75');
     bankInc.setAttribute('id', 'slider4');
     var text = document.createElement('div');
     text.id = "inc";
@@ -652,7 +652,7 @@ class Game {
       var innerDiv = document.createElement("div");
       innerDiv.id = "innerDiv" + i;
       innerDiv.style.width = "90px";
-      innerDiv.style.height = "100px";
+      innerDiv.style.height = "90px";
       innerDiv.style.backgroundImage = "url(resources/images/spritesheets/buttons.png)";
       innerDiv.style.backgroundPosition = `${-button.x}px ${-button.y}px`;
       innerDiv.style.margin = "5px";

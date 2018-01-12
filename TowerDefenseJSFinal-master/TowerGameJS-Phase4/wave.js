@@ -1,6 +1,6 @@
 
 class Wave {
-  
+
   constructor(game,waveJson) {
     this.game=game;
     this.waveJson=waveJson;
@@ -141,7 +141,7 @@ AllWaves=[
       }
     ],
     "name":"wave2",
-    "waveIncrement":6
+    "waveIncrement":10
   },
   {
     "packets":[
@@ -180,7 +180,7 @@ AllWaves=[
       }
     ],
     "name":"wave3",
-    "waveIncrement":6
+    "waveIncrement":10
   },
   {
     "packets":[
