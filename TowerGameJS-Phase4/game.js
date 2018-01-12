@@ -188,7 +188,7 @@ class Game {
 
     for (var i = 1; i <= 4; i++){
       var propName = "E" + i + "0000";
-      var f = json.frames[propName].frame;
+      var f = jsonx.frames[propName].frame;
     //  this.enemyData.push(f);
     //  console.log(f);
   //  enemyData.push(createImageBitmap(ssImage, f.x, f.y, f.w, f.h));
@@ -530,9 +530,9 @@ class Game {
           // quit code
       }
       var propertyName = "T" + (index+1) + "0000";
-      var frame = json.frames[propertyName].frame;
+      var frame = jsonx.frames[propertyName].frame;
       var bulletPropertyName = "p" + (index+1) + "0000";
-      var bulletFrame = json.frames[bulletPropertyName].frame;
+      var bulletFrame = jsonx.frames[bulletPropertyName].frame;
       this.towImgData.push(frame);
       this.bulletImgData.push(bulletFrame);
       mtd.cnvTurImg = this.towImgData[index];
