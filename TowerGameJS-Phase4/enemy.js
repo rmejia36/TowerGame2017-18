@@ -17,7 +17,7 @@ class Enemy {
     this.towerLoc =  vector2d(0, 0);
     this.velVec;
     this.increasedDamg = 20;
-    this.health = 1000;
+  //  this.health = 1000;
     this.slowVel= this.initialVel - .8;
       // velocity factor
       this.damages = 0;
@@ -273,6 +273,7 @@ class Enemy1 extends Enemy {
     super(game)
     this.randomPath=1
     this.img = game.enDa[0];
+    this.health = 1000;
   //  this.img=Enemy.image1
   }
 }
@@ -281,6 +282,7 @@ class Enemy2 extends Enemy {
     super(game)
   //  this.img=Enemy.image2
   this.img = game.enDa[1];
+  this.health == 3000;
   }
   fun(){
     this.velVec = this.velVec.copy().normalize().scale(Math.random()*10)
@@ -291,7 +293,7 @@ class Enemy3 extends Enemy {
     super(game)
   //  this.img=Enemy.image3
     this.img = game.enDa[2];
-    this.health=5000
+    this.health=10000
   }
 }
 class Enemy4 extends Enemy {
@@ -299,7 +301,7 @@ class Enemy4 extends Enemy {
     super(game)
     this.img = game.enDa[3];
   //  this.img=Enemy.image4
-    this.health=15000
+    this.health=20000
   }
 }
 class Enemy5 extends Enemy {

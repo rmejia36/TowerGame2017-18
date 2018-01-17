@@ -1,40 +1,56 @@
 json = {"frames": {
 
-"E10000":
+"Block0000":
 {
-	"frame": {"x":1,"y":1,"w":61,"h":51},
+	"frame": {"x":1,"y":1,"w":35,"h":32},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":61,"h":51},
-	"sourceSize": {"w":61,"h":51}
+	"spriteSourceSize": {"x":0,"y":0,"w":35,"h":32},
+	"sourceSize": {"w":35,"h":32}
+},
+"E10000":
+{
+	"frame": {"x":37,"y":1,"w":50,"h":50},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":50,"h":50},
+	"sourceSize": {"w":50,"h":50}
 },
 "E20000":
 {
-	"frame": {"x":63,"y":1,"w":51,"h":46},
+	"frame": {"x":88,"y":1,"w":50,"h":50},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":51,"h":46},
-	"sourceSize": {"w":51,"h":46}
+	"spriteSourceSize": {"x":0,"y":0,"w":50,"h":50},
+	"sourceSize": {"w":50,"h":50}
 },
 "E30000":
 {
-	"frame": {"x":1,"y":53,"w":40,"h":56},
+	"frame": {"x":139,"y":1,"w":50,"h":50},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":40,"h":56},
-	"sourceSize": {"w":40,"h":56}
+	"spriteSourceSize": {"x":0,"y":0,"w":50,"h":50},
+	"sourceSize": {"w":50,"h":50}
 },
 "E40000":
 {
-	"frame": {"x":42,"y":53,"w":50,"h":51},
+	"frame": {"x":190,"y":1,"w":50,"h":50},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":50,"h":51},
-	"sourceSize": {"w":50,"h":51}
+	"spriteSourceSize": {"x":0,"y":0,"w":50,"h":50},
+	"sourceSize": {"w":50,"h":50}
+},
+"E50000":
+{
+	"frame": {"x":1,"y":52,"w":50,"h":50},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":50,"h":50},
+	"sourceSize": {"w":50,"h":50}
 },
 "p10000":
 {
-	"frame": {"x":93,"y":53,"w":21,"h":30},
+	"frame": {"x":52,"y":52,"w":21,"h":30},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":21,"h":30},
@@ -42,7 +58,7 @@ json = {"frames": {
 },
 "p20000":
 {
-	"frame": {"x":1,"y":110,"w":18,"h":30},
+	"frame": {"x":74,"y":52,"w":18,"h":30},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":18,"h":30},
@@ -50,7 +66,7 @@ json = {"frames": {
 },
 "p30000":
 {
-	"frame": {"x":20,"y":110,"w":9,"h":30},
+	"frame": {"x":93,"y":52,"w":9,"h":30},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":9,"h":30},
@@ -58,7 +74,7 @@ json = {"frames": {
 },
 "p40000":
 {
-	"frame": {"x":30,"y":110,"w":20,"h":25},
+	"frame": {"x":103,"y":52,"w":20,"h":25},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":20,"h":25},
@@ -66,7 +82,7 @@ json = {"frames": {
 },
 "p50000":
 {
-	"frame": {"x":51,"y":110,"w":18,"h":31},
+	"frame": {"x":124,"y":52,"w":18,"h":31},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":18,"h":31},
@@ -74,7 +90,7 @@ json = {"frames": {
 },
 "T10000":
 {
-	"frame": {"x":70,"y":110,"w":36,"h":50},
+	"frame": {"x":143,"y":52,"w":36,"h":50},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":36,"h":50},
@@ -82,7 +98,7 @@ json = {"frames": {
 },
 "T20000":
 {
-	"frame": {"x":1,"y":161,"w":36,"h":50},
+	"frame": {"x":180,"y":52,"w":36,"h":50},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":36,"h":50},
@@ -90,7 +106,7 @@ json = {"frames": {
 },
 "T30000":
 {
-	"frame": {"x":38,"y":161,"w":42,"h":50},
+	"frame": {"x":1,"y":103,"w":42,"h":50},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":42,"h":50},
@@ -98,7 +114,7 @@ json = {"frames": {
 },
 "T40000":
 {
-	"frame": {"x":81,"y":161,"w":37,"h":50},
+	"frame": {"x":44,"y":103,"w":37,"h":50},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":37,"h":50},
@@ -106,18 +122,26 @@ json = {"frames": {
 },
 "T50000":
 {
-	"frame": {"x":1,"y":212,"w":50,"h":43},
+	"frame": {"x":82,"y":103,"w":50,"h":43},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":50,"h":43},
 	"sourceSize": {"w":50,"h":43}
+},
+"wall0000":
+{
+	"frame": {"x":133,"y":103,"w":50,"h":50},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":50,"h":50},
+	"sourceSize": {"w":50,"h":50}
 }},
 "meta": {
 	"app": "Adobe Flash CS6",
 	"version": "12.0.2.529",
-	"image": "sprites.png",
+	"image": "spritez.png",
 	"format": "RGBA8888",
-	"size": {"w":128,"h":256},
+	"size": {"w":256,"h":256},
 	"scale": "1"
 }
 }

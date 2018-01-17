@@ -28,7 +28,7 @@ sliderDiv.appendChild(slider1); */
    bsImage = new Image();
    bsImage.src = "resources/images/spritesheets/buttons.png";
    ssImage = new Image();
-   ssImage.src = "resources/images/spritesheets/sprites.png";
+   ssImage.src = "resources/images/spritesheets/sprites2.png";
    window.setTimeout(setup, 1500);
  }
 function setup() {
@@ -76,7 +76,7 @@ class Game {
     this.towersBankValuesARR = [];
     this.checkOnce = true;
     this.enemyNum = 20;
-    this.wallCost = 50;
+    this.wallCost = 35;
     this.enDa = [];
     this.towImgData = [];
     this.bulletImgData = [];
@@ -85,7 +85,7 @@ class Game {
     this.loadEnemyImages();
     this.score = 0;
     this.wave = 0;
-    this.health = 100;
+    this.health = 60;
     this.canvas = document.createElement("canvas");
     if(!this.canvas || !this.canvas.getContext)
         throw "No valid canvas found!";
@@ -159,7 +159,7 @@ class Game {
   //load wall stuff
   loadWallImage(){
     // grab the wall image from the buttons stprite sheet
-   var propName =  "B60000";
+   var propName =  "Block0000";
    var f = buttonsJSON.frames[propName].frame;
   // console.log(f.x);
    Cell.wallImage = f;
@@ -171,9 +171,9 @@ class Game {
     var enemyData = [];
 
 
-    for (var i = 1; i <= 6; i++){
+    for (var i = 1; i <= 5; i++){
       var propName = "E" + i + "0000";
-      var f = json.frames[propName].frame;
+      var f = jsonx.frames[propName].frame;
     //  this.enemyData.push(f);
     //  console.log(f);
   //  enemyData.push(createImageBitmap(ssImage, f.x, f.y, f.w, f.h));
@@ -459,9 +459,9 @@ class Game {
           // quit code
       }
       var propertyName = "T" + (index+1) + "0000";
-      var frame = json.frames[propertyName].frame;
+      var frame = jsonx.frames[propertyName].frame;
       var bulletPropertyName = "p" + (index+1) + "0000";
-      var bulletFrame = json.frames[bulletPropertyName].frame;
+      var bulletFrame = jsonx.frames[bulletPropertyName].frame;
       this.towImgData.push(frame);
       this.bulletImgData.push(bulletFrame);
      mtd.cnvTurImg = this.towImgData[index];
@@ -584,7 +584,7 @@ class Game {
     var bankInc = document.createElement("input");
     bankInc.setAttribute('type', 'range');
     bankInc.setAttribute('min', '1');
-    bankInc.setAttribute('max', '10');
+    bankInc.setAttribute('max', '75');
     bankInc.setAttribute('id', 'slider4');
     var text = document.createElement('div');
     text.id = "inc";
@@ -652,7 +652,7 @@ class Game {
       var innerDiv = document.createElement("div");
       innerDiv.id = "innerDiv" + i;
       innerDiv.style.width = "90px";
-      innerDiv.style.height = "100px";
+      innerDiv.style.height = "90px";
       innerDiv.style.backgroundImage = "url(resources/images/spritesheets/buttons.png)";
       innerDiv.style.backgroundPosition = `${-button.x}px ${-button.y}px`;
       innerDiv.style.margin = "5px";
